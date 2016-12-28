@@ -9,9 +9,10 @@ syscall:
 	mov rax, rdi ; syscall
 	mov rdi, rsi
 	mov rsi, rdx
-	mov rdx, r10
+	mov rdx, rcx
 	mov r10, r8
 	mov r8, r9
+	;pop r9	; This will trash the stack if the argument isn't present
 	syscall
 
 	pop rbp
