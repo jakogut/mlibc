@@ -11,13 +11,13 @@ int brk(void *addr)
 	return 0;
 }
 
-void *sbrk(intptr_t increment)
+void *sbrk(size_t increment)
 {
-	long current_brk = syscall(SYS_brk, 0);
-	if (!increment) return (void *)current_brk;
+	void *current_brk = (void *)syscall(SYS_brk, 0);
+	if (!increment) return current_brk;
 
-	if (brk((void *)(current_brk + increment)) == 0)
-		return (void *)current_brk;
+	if (brk(current_brk + increment) == 0)
+		return current_brk;
 	
 	return (void *)(-1);
 }
