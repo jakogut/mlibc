@@ -5,7 +5,7 @@
 int brk(void *addr)
 {
 	long ret = syscall(SYS_brk, addr);
-	if (ret < (long)addr)
+	if (ret != (long)addr)
 		return -1;
 
 	return 0;
