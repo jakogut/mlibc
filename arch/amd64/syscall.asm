@@ -12,7 +12,8 @@ syscall:
 	mov rdx, rcx
 	mov r10, r8
 	mov r8, r9
-	;pop r9	; This will trash the stack if the argument isn't present
+	mov r9, [rsp] 	; Copy instead of pop
+			; removing an argument if it's not passed in will trash the stack
 	syscall
 
 	pop rbp
