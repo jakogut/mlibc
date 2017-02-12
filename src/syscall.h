@@ -13,6 +13,9 @@
 
 #define SYS_exit	60
 
+#define SYS_fsync 	74
+#define SYS_fdatasync 	75
+
 extern long syscall();
 
 #endif
