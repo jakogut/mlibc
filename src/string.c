@@ -1,10 +1,28 @@
 #include "stdlib.h"
+#include "stdarg.h"
+#include "stdio.h"
+#include "string.h"
 
-/*int printf(const char *format, ...)
+#include "syscall.h"
+
+int vsprintf(char *str, const char *format, va_list arg)
 {
+	strcpy(str, format);
 	return 0;
 }
-*/
+
+int printf(const char *format, ...)
+{
+	char str[1024] = {0};
+
+	va_list args;
+	va_start(args, format);
+	vsprintf(str, format, args);
+	va_end(args);
+
+	syscall(SYS_write, stdout.fd, str, strlen(str-1));
+	return 0;
+}
 
 char *strcat(char *dest, const char *src)
 {
