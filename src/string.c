@@ -66,6 +66,24 @@ char *strcpy(char *dest, const char *src)
 	return dest;
 }
 
+char *strncpy(char *dest, const char *src, size_t n)
+{
+	int pos = 0, pad = 0;
+
+	while (pos < n) {
+		if (!pad) {
+			dest[pos] = src[pos];
+		} else {
+			dest[pos] = 0;
+		}
+
+		if (!dest[pos])
+			pad = 1;
+	}
+
+	return dest;
+}
+
 size_t strlen(const char *str)
 {
 	size_t n = 0;
