@@ -1,18 +1,84 @@
-/* Need FILE defined for these
+#include "stdio.h"
+#include "string.h"
+#include "stdlib.h"
+
+#include "syscall.h"
+
+#include <fcntl.h>
+
 FILE *fopen(const char *path, const char *mode)
 {
-	return NULL;
+	int o_flags = 0;
+
+	size_t mode_size = strlen(mode);
+	for (int i = 0; i < mode_size; i++) {
+		switch(mode[i]) {
+			case 'r':
+				if (i < mode_size-1 && mode[i+1] == '+')
+					o_flags = O_RDWR;
+				else
+					o_flags = O_RDONLY;
+				break;
+			case 'w':
+				if (i < mode_size-1 && mode[i+1] == '+')
+					o_flags = O_RDWR;
+				else
+					o_flags = O_WRONLY;
+
+				o_flags |= O_TRUNC | O_CREAT;
+				break;
+			case 'a':
+				if (i < mode_size-1 && mode[i+1] == '+')
+					o_flags = O_WRONLY | O_APPEND;
+				else
+					o_flags = O_RDWR | O_APPEND;
+
+				o_flags |= O_CREAT;
+				break;
+		};
+	}
+
+	FILE *stream = malloc(sizeof(FILE));
+	stream->fd = syscall(SYS_open, path, o_flags);
+
+	return stream;
 }
 
 int fclose(FILE *stream)
 {
+	syscall(SYS_close, stream->fd);
+	free(stream);
 	return 0;
+}
+
+int feof(FILE *stream)
+{
+	return 0;
+}
+
+long int ftell(FILE *stream)
+{
+	return 0;
+}
+
+int fseek(FILE *stream, long int offset, int whence)
+{
+	return 0;
+}
+
+int fgetc(FILE *stream)
+{
+	char buf[1];
+	syscall(SYS_read, stream->fd, buf, 1);
+	return (int)buf[1];
+}
+
+char *fgets(char *str, int num, FILE *stream)
+{
+	return NULL;
 }
 
 int fputs(const char *str, FILE *stream)
 {
 	return 0;
 }
-*/
-
-
