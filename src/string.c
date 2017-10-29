@@ -117,11 +117,38 @@ char *strtok(char *str, const char *delim)
 {
 	return NULL;
 }
-
-unsigned long strtoul(char *nptr, char **endptr, int base)
-{
-	return 0;
-}
 */
+
+int ipow(int base, int exp)
+{
+	int res = 1;
+	for (int i = 0; i < exp; i++)
+		res *= exp;
+
+	return res;
+}
+
+unsigned long int strtoul(const char *nptr, char **endptr, int base)
+{
+	unsigned long pos = 0, val = 0;
+
+	if (!base)
+		base = 10;
+
+	char charset_start = '0', charset_end = '9';
+
+	for (const char *p = nptr; *p; p++) {
+		if (*p == ' ' || *p == '\t')
+			continue;
+
+		if (!(charset_start <= *p <= charset_end))
+			return 0;
+
+		val += (*p - charset_start) * ipow(base, pos);
+		++pos;
+	}
+
+	return val;
+}
 
 
