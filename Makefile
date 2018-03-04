@@ -4,9 +4,16 @@ AS = nasm
 
 ARCH=amd64
 
-CFLAGS = -Wall -pipe -Iinclude/ -std=gnu11 -O2 -nostdlib -ffreestanding
+CFLAGS = -Wall -pipe -Iinclude/ -std=gnu11 -nostdlib -ffreestanding $(OPTIMIZATION)
 LFLAGS = $(CFLAGS) -Llib/
 ASFLAGS = -f elf64
+
+OPTIMIZATION = -O2
+
+DEBUG = no
+ifeq ($(DEBUG), yes)
+	CFLAGS += -g
+endif
 
 MLIBC_SOURCES = $(wildcard src/*.c)
 MLIBC_SOURCES += $(wildcard arch/${ARCH}/*.asm)
