@@ -112,12 +112,46 @@ char *strstr(const char *haystack, const char *needle)
 	return NULL;
 }
 
-/*
+static char *tok = NULL;
 char *strtok(char *str, const char *delim)
 {
+	if (str)
+		tok = str;
+
+	char *cur = tok;
+	while (*cur) {
+		int i;
+		for (i = 0; i < strlen(delim); i++) {
+			if (*cur == delim[i]) {
+				cur++;
+				break;
+			}
+		}
+
+		if (!delim[i])
+			break;
+	}
+
+	char *ret = cur;
+	while (*cur) {
+		int i;
+		for (i = 0; i < strlen(delim); i++) {
+			if (*cur == delim[i]) {
+				*cur = 0;
+				break;
+			}
+		}
+
+		if (*cur) {
+			cur++;
+		} else {
+			tok = cur + 1;
+			return ret;
+		}
+	}
+
 	return NULL;
 }
-*/
 
 int ipow(int base, int exp)
 {
