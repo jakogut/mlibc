@@ -25,6 +25,7 @@ typedef struct {
 	fpos_t pos;
 
 	char mode;
+	char eof;
 } FILE;
 
 static const FILE stdout = {

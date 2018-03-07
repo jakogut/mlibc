@@ -40,6 +40,7 @@ FILE *fopen(const char *path, const char *mode)
 
 	FILE *stream = malloc(sizeof(FILE));
 	stream->fd = syscall(SYS_open, path, o_flags);
+	stream->eof = 0;
 
 	return stream;
 }
@@ -53,7 +54,7 @@ int fclose(FILE *stream)
 
 int feof(FILE *stream)
 {
-	return 0;
+	return stream->eof;
 }
 
 long int ftell(FILE *stream)
