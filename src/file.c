@@ -77,9 +77,13 @@ int fseek(FILE *stream, long int offset, int whence)
 
 int fgetc(FILE *stream)
 {
-	char buf[1];
-	syscall(SYS_read, stream->fd, buf, 1);
-	return (int)buf[1];
+	char buf;
+	int read = syscall(SYS_read, stream->fd, &buf, 1);
+	if (!read)
+		stream->eof = 1;
+	else
+		stream->pos += read;
+	return (int)buf;
 }
 
 char *fgets(char *str, int num, FILE *stream)
