@@ -4,11 +4,21 @@
 
 #include "brk.h"
 
+#define ALLOC_INFO_SIZE sizeof(struct alloc_info)
+#define info_from_alloc(alloc) (struct alloc_info *)(alloc - sizeof(struct alloc_info))
+
+struct alloc_info {
+	size_t size;
+};
+
 void *malloc(size_t size)
 {
-	void *mem = sbrk(size);
+	void *mem = sbrk(size + ALLOC_INFO_SIZE) + ALLOC_INFO_SIZE;
 	if ((long)mem == -1)
 		return NULL;
+
+	struct alloc_info *header = info_from_alloc(mem);
+	header->size = size;
 
 	return (void *)mem;
 }
