@@ -64,6 +64,14 @@ long int ftell(FILE *stream)
 
 int fseek(FILE *stream, long int offset, int whence)
 {
+	if (whence == SEEK_SET) {
+		syscall(SYS_lseek, stream->fd, offset, whence);
+		stream->pos = offset;
+		stream->eof = 0;
+	} else {
+		return -1;
+	}
+	// tinyvm doesn't need other origins
 	return 0;
 }
 
