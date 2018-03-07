@@ -14,9 +14,9 @@
 #define FOPEN_MAX	255
 #define FILENAME_MAX	255
 
-#define SEEK_CURR	0
-#define SEEK_END	1
-#define SEEK_SET	2
+#define SEEK_SET	0
+#define SEEK_CURR	1
+#define SEEK_END	2
 
 typedef long fpos_t;
 
