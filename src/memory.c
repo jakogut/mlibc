@@ -36,7 +36,12 @@ void *calloc(size_t count, size_t size)
 
 void *realloc(void *p, size_t size)
 {
-	return NULL;
+	void *buf = malloc(size);
+	if (p != NULL) {
+		struct alloc_info *header = info_from_alloc(p);
+		memcpy(buf, p, header->size);
+	}
+	return buf;
 }
 
 
