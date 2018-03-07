@@ -59,7 +59,7 @@ int feof(FILE *stream)
 
 long int ftell(FILE *stream)
 {
-	return 0;
+	return stream->pos;
 }
 
 int fseek(FILE *stream, long int offset, int whence)
